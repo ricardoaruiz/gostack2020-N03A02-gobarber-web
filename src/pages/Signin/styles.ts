@@ -16,12 +16,9 @@ export const Content = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 43.5rem;
+  max-width: 38rem;
 
   form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin: 3rem 0;
     width: 21rem;
     text-align: center;
