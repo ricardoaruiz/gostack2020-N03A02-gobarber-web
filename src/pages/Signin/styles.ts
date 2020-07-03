@@ -22,12 +22,13 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 2rem 0;
+    margin: 3rem 0;
     width: 21rem;
     text-align: center;
 
     h1 {
-      margin: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
     }
 
     input {
@@ -52,7 +53,7 @@ export const Content = styled.div`
       height: 3.5rem;
       border-radius: 10px;
       border: 0;
-      margin: 0.5rem 0;
+      margin: 1.5rem 0;
       padding: 0 1rem;
       color: #312e38;
       width: 100%;
