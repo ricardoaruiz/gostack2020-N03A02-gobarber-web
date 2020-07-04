@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import Tooltip from '../Tooltip';
+
 interface ContainerProps {
   className?: string;
 }
@@ -33,6 +35,9 @@ export const Container = styled.div<ContainerProps>`
     color: #666360;
   }
 
+  &.error {
+    border: 2px solid #c53030;
+  }
   &.filled {
     svg {
       color: #ff9000;
@@ -44,4 +49,13 @@ export const Container = styled.div<ContainerProps>`
       color: #ff9000;
     }
   }
+`;
+
+export const Error = styled(Tooltip)`
+  height: 1.25rem;
+  margin-left: 1rem;
+  svg {
+    margin: 0;
+    cursor: pointer;
+    color: #c53030;
 `;
