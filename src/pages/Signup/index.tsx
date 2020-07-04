@@ -13,7 +13,7 @@ import getValidationErrors from '../../utils/getValidationErrors';
 
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const handleFormSubmit: SubmitHandler<FormData> = useCallback(async (data) => {
+  const handleFormSubmit: SubmitHandler<FormData> = useCallback(async data => {
     try {
       formRef.current?.setErrors({});
 

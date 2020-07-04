@@ -32,6 +32,7 @@
     "no-unused-expressions": "off",
     "object-curly-newline": "off",
     "react/require-default-props": "off",
+    "arrow-parens": "off",
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",

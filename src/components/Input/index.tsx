@@ -52,7 +52,7 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...otherProps }) => {
 
   return (
     <S.Container className={classes}>
-      {Icon && <Icon size={20} />}
+      {Icon && <Icon size={20} className="icon" />}
       <input
         {...otherProps}
         ref={inputRef}

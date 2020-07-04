@@ -30,24 +30,24 @@ export const Container = styled.div<ContainerProps>`
     }
   }
 
-  svg {
+  .icon {
     margin-right: 1rem;
     color: #666360;
   }
 
-  &.error {
-    border: 2px solid #c53030;
-  }
   &.filled {
-    svg {
+    .icon {
       color: #ff9000;
     }
   }
   &.focused {
     border: 2px solid #ff9000;
-    svg {
+    .icon {
       color: #ff9000;
     }
+  }
+  &.error {
+    border: 2px solid #c53030;
   }
 `;
 
