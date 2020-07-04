@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+interface ContainerProps {
+  className?: string;
+}
+
+export const Container = styled.div<ContainerProps>`
   display: flex;
   align-items: center;
   background: #232129;
@@ -27,5 +31,17 @@ export const Container = styled.div`
   svg {
     margin-right: 1rem;
     color: #666360;
+  }
+
+  &.filled {
+    svg {
+      color: #ff9000;
+    }
+  }
+  &.focused {
+    border: 2px solid #ff9000;
+    svg {
+      color: #ff9000;
+    }
   }
 `;

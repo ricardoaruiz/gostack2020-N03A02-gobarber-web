@@ -9,6 +9,11 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 const Signin: React.FC = () => {
+  const initialData = {
+    email: 'ricardo.almendro.ruiz@gmail.com',
+    password: '123456',
+  };
+
   const handleSubmit = (data: object): void => {
     console.log('submit', data);
   };
@@ -17,7 +22,7 @@ const Signin: React.FC = () => {
       <S.Content>
         <img src={logo} alt="GoBarber" />
 
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} initialData={initialData}>
           <h1>Faça seu Login</h1>
           <Input name="email" type="text" placeholder="E-mail" icon={FiMail} />
           <Input
