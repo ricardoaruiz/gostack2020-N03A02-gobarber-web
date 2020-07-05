@@ -1,4 +1,5 @@
-import React, { useCallback, useState, useContext, createContext } from 'react';
+import React, { createContext, useCallback, useState } from 'react';
+
 import api from '../services/api';
 
 const LocalStorageTokenKey = '@GoBarber:token';
@@ -8,7 +9,7 @@ interface SignInCredentials {
   password: string;
 }
 
-interface AuthContextData {
+export interface AuthContextData {
   user: object;
   signIn: (data: SignInCredentials) => void;
   signOut: () => void;
@@ -19,10 +20,12 @@ interface AuthStateData {
   user: object;
 }
 
-const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+export const AuthContext = createContext<AuthContextData>(
+  {} as AuthContextData,
+);
 AuthContext.displayName = 'AuthContext';
 
-const AuthContextProvider: React.FC = ({ children }) => {
+export const AuthContextProvider: React.FC = ({ children }) => {
   // Cria estado com token e usuário logado buscando do local storage
   // caso não exista cria estado vazio
   const [authData, setAuthData] = useState<AuthStateData>(() => {
@@ -66,15 +69,3 @@ const AuthContextProvider: React.FC = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
-const useAuth = (): AuthContextData => {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw Error('You cannot use useAuth without using AuthProvider');
-  }
-
-  return context;
-};
-
-export { AuthContextProvider, useAuth };
