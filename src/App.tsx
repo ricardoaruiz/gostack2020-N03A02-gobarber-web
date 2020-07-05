@@ -3,13 +3,13 @@ import React from 'react';
 import GlobalStyles from './styles/global';
 import Signin from './pages/Signin';
 
-import AuthContext from './context/authContext';
+import { AuthContextProvider } from './context/authContext';
 
 const App: React.FC = () => (
   <>
-    <AuthContext.Provider value={{ name: 'Ricardo' }}>
+    <AuthContextProvider>
       <Signin />
-    </AuthContext.Provider>
+    </AuthContextProvider>
     <GlobalStyles />
   </>
 );
