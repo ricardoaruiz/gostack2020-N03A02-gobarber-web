@@ -1,16 +1,15 @@
-import React, { useCallback, useRef, useContext } from 'react';
-import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
-import { Form } from '@unform/web';
 import { FormHandles, SubmitHandler } from '@unform/core';
+import { Form } from '@unform/web';
+import React, { useCallback, useRef } from 'react';
+import { FiLock, FiLogIn, FiMail } from 'react-icons/fi';
 import * as Yup from 'yup';
 
 import logo from '../../assets/logo.svg';
-
-import * as S from './styles';
-import Input from '../../components/Input';
 import Button from '../../components/Button';
-import getValidationErrors from '../../utils/getValidationErrors';
+import Input from '../../components/Input';
 import { useAuth } from '../../context/authContext';
+import getValidationErrors from '../../utils/getValidationErrors';
+import * as S from './styles';
 
 interface SigninFormData {
   email: string;
@@ -18,15 +17,9 @@ interface SigninFormData {
 }
 
 const Signin: React.FC = () => {
-  const { user, signIn } = useAuth();
-
-  console.log('Signin User =>', user);
+  const { signIn } = useAuth();
 
   const formRef = useRef<FormHandles>(null);
-  // const initialData = {
-  //   email: 'ricardo.almendro.ruiz@gmail.com',
-  //   password: '123456',
-  // };
 
   const handleSubmit: SubmitHandler<SigninFormData> = useCallback(
     async data => {
@@ -59,7 +52,6 @@ const Signin: React.FC = () => {
       <S.Content>
         <img src={logo} alt="GoBarber" />
 
-        {/* <Form onSubmit={handleSubmit} initialData={initialData} ref={formRef}> */}
         <Form onSubmit={handleSubmit} ref={formRef}>
           <h1>Faça seu Login</h1>
           <Input name="email" type="text" placeholder="E-mail" icon={FiMail} />

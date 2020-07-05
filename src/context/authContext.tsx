@@ -1,6 +1,8 @@
 import React, { useCallback, useState, useContext, createContext } from 'react';
 import api from '../services/api';
 
+const LocalStorageTokenKey = '@GoBarber:token';
+const LocalStorageUserKey = '@GoBarber:user';
 interface SignInCredentials {
   email: string;
   password: string;
@@ -9,6 +11,7 @@ interface SignInCredentials {
 interface AuthContextData {
   user: object;
   signIn: (data: SignInCredentials) => void;
+  signOut: () => void;
 }
 
 interface AuthStateData {
@@ -18,9 +21,6 @@ interface AuthStateData {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 AuthContext.displayName = 'AuthContext';
-
-const LocalStorageTokenKey = '@GoBarber:token';
-const LocalStorageUserKey = '@GoBarber:user';
 
 const AuthContextProvider: React.FC = ({ children }) => {
   // Cria estado com token e usuário logado buscando do local storage
@@ -54,8 +54,14 @@ const AuthContextProvider: React.FC = ({ children }) => {
     });
   }, []);
 
+  const signOut = useCallback(() => {
+    localStorage.removeItem(LocalStorageTokenKey);
+    localStorage.removeItem(LocalStorageUserKey);
+    setAuthData({} as AuthStateData);
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user: authData.user, signIn }}>
+    <AuthContext.Provider value={{ user: authData.user, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
