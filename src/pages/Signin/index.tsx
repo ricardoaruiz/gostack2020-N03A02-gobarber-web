@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useContext } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles, SubmitHandler } from '@unform/core';
@@ -10,8 +10,13 @@ import * as S from './styles';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import getValidationErrors from '../../utils/getValidationErrors';
+import AuthContext from '../../context/authContext';
 
 const Signin: React.FC = () => {
+  const authContext = useContext(AuthContext);
+
+  console.log(authContext);
+
   const formRef = useRef<FormHandles>(null);
   // const initialData = {
   //   email: 'ricardo.almendro.ruiz@gmail.com',
