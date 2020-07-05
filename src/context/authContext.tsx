@@ -1,4 +1,4 @@
-import React, { useCallback, useState, createContext } from 'react';
+import React, { useCallback, useState, useContext, createContext } from 'react';
 import api from '../services/api';
 
 interface SignInCredentials {
@@ -61,4 +61,14 @@ const AuthContextProvider: React.FC = ({ children }) => {
   );
 };
 
-export { AuthContext, AuthContextProvider };
+const useAuth = (): AuthContextData => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw Error('You cannot use useAuth without using AuthProvider');
+  }
+
+  return context;
+};
+
+export { AuthContextProvider, useAuth };

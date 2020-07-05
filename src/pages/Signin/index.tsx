@@ -10,7 +10,7 @@ import * as S from './styles';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import getValidationErrors from '../../utils/getValidationErrors';
-import { AuthContext } from '../../context/authContext';
+import { useAuth } from '../../context/authContext';
 
 interface SigninFormData {
   email: string;
@@ -18,7 +18,7 @@ interface SigninFormData {
 }
 
 const Signin: React.FC = () => {
-  const { user, signIn } = useContext(AuthContext);
+  const { user, signIn } = useAuth();
 
   console.log('Signin User =>', user);
 
