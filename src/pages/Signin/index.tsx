@@ -2,6 +2,7 @@ import { FormHandles, SubmitHandler } from '@unform/core';
 import { Form } from '@unform/web';
 import React, { useCallback, useRef } from 'react';
 import { FiLock, FiLogIn, FiMail } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import logo from '../../assets/logo.svg';
@@ -78,10 +79,10 @@ const Signin: React.FC = () => {
           <a href="forgot-password">Esqueci minha senha</a>
         </Form>
 
-        <a href="create-account">
+        <Link to="signup">
           <FiLogIn size={16} />
           Criar conta
-        </a>
+        </Link>
       </S.Content>
       <S.Background />
     </S.Container>
