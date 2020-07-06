@@ -17,6 +17,11 @@ interface SigninFormData {
   password: string;
 }
 
+const initialData = {
+  email: 'usuario@email.com',
+  password: '654321',
+};
+
 const Signin: React.FC = () => {
   const { signIn } = useAuth();
   const { addToast, removeAllToasts } = useToast();
@@ -47,6 +52,7 @@ const Signin: React.FC = () => {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);
           formRef.current?.setErrors(errors);
+          return;
         }
         addToast({ type: 'error', message: error.message });
       }
@@ -59,7 +65,7 @@ const Signin: React.FC = () => {
       <S.Content>
         <img src={logo} alt="GoBarber" />
 
-        <Form onSubmit={handleSubmit} ref={formRef}>
+        <Form onSubmit={handleSubmit} ref={formRef} initialData={initialData}>
           <h1>Faça seu Login</h1>
           <Input name="email" type="text" placeholder="E-mail" icon={FiMail} />
           <Input

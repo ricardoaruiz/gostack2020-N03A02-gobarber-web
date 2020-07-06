@@ -23,4 +23,8 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+#root {
+  display: relative;
+}
 `;

@@ -6,7 +6,7 @@ import backgroundImg from '../../assets/sign-in-background.png';
 export const Container = styled.div`
   display: flex;
   align-items: stretch;
-  width: 100vw;
+  /* width: 100vw; */
   height: 100vh;
 `;
 

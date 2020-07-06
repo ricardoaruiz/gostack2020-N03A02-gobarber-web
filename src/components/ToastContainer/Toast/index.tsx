@@ -10,11 +10,15 @@ export interface ToastMessage {
   message?: string;
 }
 
-const Toast: React.FC<ToastMessage> = ({
-  id,
-  type = 'info',
-  message = '',
-}: ToastMessage) => {
+interface ToastProps {
+  data: ToastMessage;
+  style: object;
+}
+
+const Toast: React.FC<ToastProps> = ({
+  data: { id, type = 'info', message = '' },
+  style = {},
+}: ToastProps) => {
   const { removeToast } = useToast();
   const toastType = {
     info: 'Informação',
@@ -39,7 +43,7 @@ const Toast: React.FC<ToastMessage> = ({
   }, [removeToast, id]);
 
   return (
-    <S.Container key={id} type={type}>
+    <S.Container key={id} type={type} style={style}>
       {icon[type]}
       <span>{toastType[type]}</span>
       <p>{message}</p>
