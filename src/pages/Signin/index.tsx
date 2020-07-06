@@ -19,7 +19,7 @@ interface SigninFormData {
 
 const Signin: React.FC = () => {
   const { signIn } = useAuth();
-  const { showToast, closeAllToasts } = useToast();
+  const { addToast, removeAllToasts } = useToast();
 
   const formRef = useRef<FormHandles>(null);
 
@@ -42,16 +42,16 @@ const Signin: React.FC = () => {
           password: data.password,
         });
 
-        closeAllToasts();
+        removeAllToasts();
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);
           formRef.current?.setErrors(errors);
         }
-        showToast({ type: 'error', message: error.message });
+        addToast({ type: 'error', message: error.message });
       }
     },
-    [signIn],
+    [removeAllToasts, addToast, signIn],
   );
 
   return (
