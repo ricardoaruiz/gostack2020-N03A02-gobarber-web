@@ -64,25 +64,32 @@ const Signin: React.FC = () => {
   return (
     <S.Container>
       <S.Content>
-        <img src={logo} alt="GoBarber" />
+        <S.AnimationContainer>
+          <img src={logo} alt="GoBarber" />
 
-        <Form onSubmit={handleSubmit} ref={formRef} initialData={initialData}>
-          <h1>Faça seu Login</h1>
-          <Input name="email" type="text" placeholder="E-mail" icon={FiMail} />
-          <Input
-            name="password"
-            type="password"
-            placeholder="Senha"
-            icon={FiLock}
-          />
-          <Button type="submit">Entrar</Button>
-          <a href="forgot-password">Esqueci minha senha</a>
-        </Form>
+          <Form onSubmit={handleSubmit} ref={formRef} initialData={initialData}>
+            <h1>Faça seu Login</h1>
+            <Input
+              name="email"
+              type="text"
+              placeholder="E-mail"
+              icon={FiMail}
+            />
+            <Input
+              name="password"
+              type="password"
+              placeholder="Senha"
+              icon={FiLock}
+            />
+            <Button type="submit">Entrar</Button>
+            <a href="forgot-password">Esqueci minha senha</a>
+          </Form>
 
-        <Link to="signup">
-          <FiLogIn size={16} />
-          Criar conta
-        </Link>
+          <Link to="signup">
+            <FiLogIn size={16} />
+            Criar conta
+          </Link>
+        </S.AnimationContainer>
       </S.Content>
       <S.Background />
     </S.Container>

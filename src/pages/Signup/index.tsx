@@ -43,25 +43,22 @@ const SignUp: React.FC = () => {
     <S.Container>
       <S.Background />
       <S.Content>
-        <img src={logo} alt="GoBarber" />
+        <S.AnimatedContainer>
+          <img src={logo} alt="GoBarber" />
 
-        {/* <ul>
-        <li className="active">Sou cliente</li>
-        <li>Sou cabeleireiro</li>
-      </ul> */}
+          <Form onSubmit={handleFormSubmit} ref={formRef}>
+            <h1>Faça seu cadastro</h1>
+            <Input name="name" placeholder="Nome" icon={FiUser} />
+            <Input name="email" placeholder="E-mail" icon={FiMail} />
+            <Input name="password" placeholder="Senha" icon={FiLock} />
+            <Button type="submit">Cadastrar</Button>
+          </Form>
 
-        <Form onSubmit={handleFormSubmit} ref={formRef}>
-          <h1>Faça seu cadastro</h1>
-          <Input name="name" placeholder="Nome" icon={FiUser} />
-          <Input name="email" placeholder="E-mail" icon={FiMail} />
-          <Input name="password" placeholder="Senha" icon={FiLock} />
-          <Button type="submit">Cadastrar</Button>
-        </Form>
-
-        <Link to="/">
-          <FiArrowLeft size={16} />
-          Voltar para Logon
-        </Link>
+          <Link to="/">
+            <FiArrowLeft size={16} />
+            Voltar para Logon
+          </Link>
+        </S.AnimatedContainer>
       </S.Content>
     </S.Container>
   );
