@@ -10,12 +10,12 @@ const toastVariations = {
     color: #3172b7;
   `,
   success: css`
-    background-color: green;
-    color: #fff;
+    background-color: #e6fffa;
+    color: #2e656a;
   `,
   error: css`
-    background-color: red;
-    color: #fff;
+    background-color: #fddede;
+    color: #c53030;
   `,
 };
 
@@ -33,6 +33,7 @@ export const Toast = styled.div<ToasProps>`
   background-color: #ebf8ff;
   color: #3172b7;
   border-radius: 0.5rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 
   ${props => toastVariations[props.type || 'info']}
 

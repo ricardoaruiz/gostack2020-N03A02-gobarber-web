@@ -48,14 +48,24 @@ export const AuthContextProvider: React.FC = ({ children }) => {
    * a api, em seguida atualiza o localStorage com as informações do login
    * e atualiza os dados do contexto de autenticação
    */
-  const signIn = useCallback(({ email, password }: SignInCredentials) => {
-    api.post('/sessions', { email, password }).then(response => {
-      const { token, user } = response.data;
-      localStorage.setItem(LocalStorageTokenKey, token);
-      localStorage.setItem(LocalStorageUserKey, JSON.stringify(user));
-      setAuthData({ token, user });
-    });
-  }, []);
+  const signIn = useCallback(
+    ({ email, password }: SignInCredentials) =>
+      api
+        .post('/sessions', { email, password })
+        .then(response => {
+          const { token, user } = response.data;
+          localStorage.setItem(LocalStorageTokenKey, token);
+          localStorage.setItem(LocalStorageUserKey, JSON.stringify(user));
+          setAuthData({ token, user });
+        })
+        .catch(error => {
+          if (error.response.status === 401) {
+            throw new Error('Usuário ou senha inválidos');
+          }
+          throw error;
+        }),
+    [],
+  );
 
   const signOut = useCallback(() => {
     localStorage.removeItem(LocalStorageTokenKey);

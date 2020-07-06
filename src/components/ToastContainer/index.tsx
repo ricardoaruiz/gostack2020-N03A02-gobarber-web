@@ -1,50 +1,49 @@
 import React from 'react';
 import { FiAlertCircle, FiXCircle } from 'react-icons/fi';
 
+import { useToast } from '../../hooks/useToast';
+
 import * as S from './styles';
 
-const ToastContainer: React.FC = () => (
-  <S.Container>
-    <S.Toast>
-      <FiAlertCircle size={20} />
+export interface Toast {
+  id?: string;
+  type?: 'info' | 'success' | 'error';
+  message?: string;
+}
 
-      <span>Informação</span>
-      <p>Você possui agendamentos pendentes!</p>
+interface ToastContainerProps {
+  data: Toast[];
+}
 
-      <button type="button">
-        <FiXCircle />
-      </button>
-    </S.Toast>
+const ToastContainer: React.FC<ToastContainerProps> = ({
+  data,
+}: ToastContainerProps) => {
+  const toastType = {
+    info: 'Informação',
+    success: 'Sucesso',
+    error: 'Erro',
+  };
 
-    <S.Toast type="success">
-      <FiAlertCircle size={20} />
+  const { closeToast } = useToast();
 
-      <span>Sucesso</span>
-      <p>
-        Agendamento realizado com sucesso.
-        <br />
-        Verifique a lista de agendamentos.
-      </p>
+  return (
+    <S.Container>
+      {data.length
+        ? data.map((toast: Toast) => (
+          <S.Toast key={toast.id} type={toast.type}>
+            <FiAlertCircle size={20} />
 
-      <button type="button">
-        <FiXCircle />
-      </button>
-    </S.Toast>
+            <span>{toastType[toast?.type || 'info']}</span>
+            <p>{toast.message}</p>
 
-    <S.Toast type="error">
-      <FiAlertCircle size={20} />
-
-      <span>Erro</span>
-      <p>
-        Erro ao realizar um agendamento.
-        <br /> Por favor tente mais tarde.
-      </p>
-
-      <button type="button">
-        <FiXCircle />
-      </button>
-    </S.Toast>
-  </S.Container>
-);
+            <button type="button" onClick={() => closeToast(toast.id)}>
+              <FiXCircle />
+            </button>
+          </S.Toast>
+        ))
+        : null}
+    </S.Container>
+  );
+};
 
 export default ToastContainer;
