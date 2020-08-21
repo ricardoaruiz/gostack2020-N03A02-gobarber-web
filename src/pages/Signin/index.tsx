@@ -19,8 +19,8 @@ interface SigninFormData {
 }
 
 const initialData = {
-  email: 'usuario@email.com',
-  password: '654321',
+  email: 'ricardo@email.com',
+  password: '123456',
 };
 
 const Signin: React.FC = () => {

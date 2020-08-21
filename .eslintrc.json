@@ -29,6 +29,7 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "camelcase": "off",
     "react/jsx-indent": "off",
     "implicit-arrow-linebreak": "off",
     "react/jsx-one-expression-per-line": "off",
