@@ -9,15 +9,22 @@ interface SignInCredentials {
   password: string;
 }
 
+interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  avatar_url: string;
+}
+
 export interface AuthContextData {
-  user: object;
+  user: IUser;
   signIn: (data: SignInCredentials) => void;
   signOut: () => void;
 }
 
 interface AuthStateData {
   token: string;
-  user: object;
+  user: IUser;
 }
 
 export const AuthContext = createContext<AuthContextData>(
