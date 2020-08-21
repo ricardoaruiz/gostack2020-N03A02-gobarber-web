@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiPower } from 'react-icons/fi';
+import { FiPower, FiClock } from 'react-icons/fi';
 
 import { useAuth } from '../../hooks/useAuth';
 import logoImg from '../../assets/logo.svg';
@@ -10,23 +10,50 @@ const Dashboard: React.FC = () => {
   const { signOut, user } = useAuth();
 
   return (
-    <S.Header>
-      <S.HeaderContent>
-        <img src={logoImg} alt="GoBarber" />
+    <S.Container>
+      <S.Header>
+        <S.HeaderContent>
+          <img src={logoImg} alt="GoBarber" />
 
-        <S.Profile>
-          <img src={user.avatar_url} alt={user.name} />
-          <div>
-            <span>Bem vindo</span>
-            <strong>{user.name}</strong>
-          </div>
-        </S.Profile>
+          <S.Profile>
+            <img src={user.avatar_url} alt={user.name} />
+            <div>
+              <span>Bem vindo</span>
+              <strong>{user.name}</strong>
+            </div>
+          </S.Profile>
 
-        <button type="button" onClick={signOut}>
-          <FiPower />
-        </button>
-      </S.HeaderContent>
-    </S.Header>
+          <button type="button" onClick={signOut}>
+            <FiPower />
+          </button>
+        </S.HeaderContent>
+      </S.Header>
+      <S.Content>
+        <S.Schedule>
+          <h1>Horários agendados</h1>
+          <p>
+            <span>Hoje</span>
+            <span>Dia 21</span>
+            <span>Sexta-feira</span>
+          </p>
+          <S.NextAppointment>
+            <strong>Atendimento a seguir</strong>
+            <div>
+              <img
+                src="https://avatars2.githubusercontent.com/u/8824363?s=460&u=1dab04b6df0098023ea8ac47c9946d606e6231d0&v=4"
+                alt="sss"
+              />
+              <strong>Ricardo Almendro Ruiz</strong>
+              <span>
+                <FiClock />
+                08:00
+              </span>
+            </div>
+          </S.NextAppointment>
+        </S.Schedule>
+        <S.Calendar>calendar</S.Calendar>
+      </S.Content>
+    </S.Container>
   );
 };
 
