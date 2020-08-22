@@ -31,6 +31,7 @@
   "rules": {
     "camelcase": "off",
     "import/no-duplicates": "off",
+    "operator-linebreak": "off",
     "react/jsx-indent": "off",
     "implicit-arrow-linebreak": "off",
     "react/jsx-one-expression-per-line": "off",

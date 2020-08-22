@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { FiPower, FiClock, FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { FiPower, FiClock } from 'react-icons/fi';
 import {
   getDay,
   getMonth,
@@ -15,6 +15,7 @@ import logoImg from '../../assets/logo.svg';
 
 import * as S from './styles';
 import api from '../../services/api';
+import Calendar from './Calendar';
 
 interface CurrentDate {
   date: Date;
@@ -31,8 +32,6 @@ interface MonthAvailability {
   available: boolean;
 }
 
-const daysOfWeek = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
-
 const Dashboard: React.FC = () => {
   const { signOut, user } = useAuth();
 
@@ -40,7 +39,9 @@ const Dashboard: React.FC = () => {
   const [currentDate, setCurrentDate] = useState<CurrentDate>(() => {
     const current = new Date();
     const tempMonthName = format(current, 'MMMM', { locale: ptBR });
-    const monthName = tempMonthName.charAt(0).toUpperCase() + tempMonthName.slice(1);
+    const monthName =
+      tempMonthName.charAt(0).toUpperCase() + tempMonthName.slice(1);
+
     return {
       date: current,
       year: getYear(current),
@@ -64,7 +65,9 @@ const Dashboard: React.FC = () => {
 
   const buildCurrentDate = useCallback((date: Date) => {
     const tempMonthName = format(date, 'MMMM', { locale: ptBR });
-    const monthName = tempMonthName.charAt(0).toUpperCase() + tempMonthName.slice(1);
+    const monthName =
+      tempMonthName.charAt(0).toUpperCase() + tempMonthName.slice(1);
+
     setCurrentDate({
       date,
       year: getYear(date),
@@ -139,7 +142,11 @@ const Dashboard: React.FC = () => {
         });
         setMonthAvailability(availability);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
+      });
   }, [currentDate, user]);
 
   return (
@@ -245,43 +252,12 @@ const Dashboard: React.FC = () => {
           </S.Section>
         </S.Schedule>
 
-        <S.Calendar>
-          <S.CalendarHeader>
-            <FiArrowLeft onClick={() => handleChangeMonth('prev')} />
-            <strong>
-              {currentDate.monthName} {currentDate.year}
-            </strong>
-            <FiArrowRight onClick={() => handleChangeMonth('next')} />
-          </S.CalendarHeader>
-          <S.CalendarContent>
-            <S.CalendarWeekDays>
-              {Array.from({ length: 7 }, (_, k) => (
-                <S.WeekDay key={k} active={currentDate.dayOfWeek === k}>
-                  {daysOfWeek[k]}
-                </S.WeekDay>
-              ))}
-            </S.CalendarWeekDays>
-            {!!monthAvailability.length && (
-              <S.CalendarMonthDays>
-                {monthAvailability[0].dayOfWeek !== 0 &&
-                  Array.from(
-                    { length: monthAvailability[0].dayOfWeek },
-                    (_, i) => <S.MonthDay disabled key={i} />,
-                  )}
-                {monthAvailability.map(dayInMonth => (
-                  <S.MonthDay
-                    key={dayInMonth.day}
-                    active={currentDate.dayOfMonth === dayInMonth.day}
-                    disabled={!isDayAvailable(dayInMonth)}
-                    onClick={() => handleChangeDate(dayInMonth)}
-                  >
-                    {dayInMonth.day}
-                  </S.MonthDay>
-                ))}
-              </S.CalendarMonthDays>
-            )}
-          </S.CalendarContent>
-        </S.Calendar>
+        <Calendar
+          currentDate={currentDate}
+          monthAvailability={monthAvailability}
+          handleChangeMonth={handleChangeMonth}
+          handleChangeDate={handleChangeDate}
+        />
       </S.Content>
     </S.Container>
   );
