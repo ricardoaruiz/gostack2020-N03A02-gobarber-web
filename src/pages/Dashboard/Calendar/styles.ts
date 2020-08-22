@@ -67,6 +67,7 @@ export const CalendarMonthDays = styled.div`
 interface MonthDayProps {
   disabled?: boolean;
   active?: boolean;
+  isToday?: boolean;
 }
 
 export const MonthDay = styled.div<MonthDayProps>`
@@ -99,4 +100,19 @@ export const MonthDay = styled.div<MonthDayProps>`
           }
         `;
   }};
+
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.225rem;
+    height: 2.225rem;
+    border-radius: 10px;
+    ${props =>
+    props.isToday &&
+    css`
+        border: 1px solid #fff;
+        color: #fff;
+      `}
+  }
 `;

@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { isToday } from 'date-fns';
 
 import * as S from './styles';
 
@@ -80,10 +81,13 @@ const Calendar: React.FC<CalendarProps> = ({
               <S.MonthDay
                 key={dayInMonth.day}
                 active={currentDate.day === dayInMonth.day}
+                isToday={isToday(
+                  new Date(currentDate.year, currentDate.month, dayInMonth.day),
+                )}
                 disabled={!isDayAvailable(dayInMonth)}
                 onClick={() => handleClickDay(dayInMonth)}
               >
-                {dayInMonth.day}
+                <div>{dayInMonth.day}</div>
               </S.MonthDay>
             ))}
           </S.CalendarMonthDays>
