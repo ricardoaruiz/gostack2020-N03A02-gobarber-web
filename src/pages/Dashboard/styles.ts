@@ -253,9 +253,8 @@ export const CalendarMonthDays = styled.div`
 `;
 
 interface MonthDayProps {
-  off?: boolean;
+  disabled?: boolean;
   active?: boolean;
-  available?: boolean;
 }
 
 export const MonthDay = styled.div<MonthDayProps>`
@@ -268,7 +267,7 @@ export const MonthDay = styled.div<MonthDayProps>`
   cursor: pointer;
 
   ${props => {
-    if (props.off) {
+    if (props.disabled) {
       return css`
         background: 'transparent';
         color: #666360;

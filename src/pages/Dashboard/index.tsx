@@ -25,10 +25,10 @@ interface CurrentDate {
   dayOfWeek: number;
 }
 
-interface DayInMonth {
+interface MonthAvailability {
   day: number;
   dayOfWeek: number;
-  available?: boolean;
+  available: boolean;
 }
 
 const daysOfWeek = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
@@ -50,10 +50,12 @@ const Dashboard: React.FC = () => {
       dayOfWeek: getDay(current),
     };
   });
-  const [daysInMonth, setDaysInMont] = useState<DayInMonth[]>([]);
+  const [monthAvailability, setMonthAvailability] = useState<
+    MonthAvailability[]
+  >([]);
 
   const isDayAvailable = useCallback(
-    (dayInMonth: DayInMonth) =>
+    (dayInMonth: MonthAvailability) =>
       dayInMonth.dayOfWeek > 0 &&
       dayInMonth.dayOfWeek < 6 &&
       dayInMonth.available,
@@ -74,7 +76,7 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const handleChangeDate = useCallback(
-    (dayInMonth: DayInMonth) => {
+    (dayInMonth: MonthAvailability) => {
       const { day } = dayInMonth;
       if (isDayAvailable(dayInMonth)) {
         const { year, month } = currentDate;
@@ -100,7 +102,7 @@ const Dashboard: React.FC = () => {
         return;
       }
 
-      setDaysInMont([]);
+      setMonthAvailability([]);
       buildCurrentDate(newDate);
     },
     [buildCurrentDate, currentDate, isLoading],
@@ -112,11 +114,14 @@ const Dashboard: React.FC = () => {
 
     setIsLoading(true);
     api
-      .get<DayInMonth[]>(
-        `/providers/${id}/month-availability?month=${month + 1}&year=${year}`,
-      )
+      .get<MonthAvailability[]>(`/providers/${id}/month-availability`, {
+        params: {
+          month: month + 1,
+          year,
+        },
+      })
       .then(result => {
-        const monthAvailability = result.data.map(data => {
+        const availability = result.data.map(data => {
           const { day, available } = data;
 
           const dayOfWeek = getDay(
@@ -132,7 +137,7 @@ const Dashboard: React.FC = () => {
             available,
           };
         });
-        setDaysInMont(monthAvailability);
+        setMonthAvailability(availability);
       })
       .finally(() => setIsLoading(false));
   }, [currentDate, user]);
@@ -256,17 +261,18 @@ const Dashboard: React.FC = () => {
                 </S.WeekDay>
               ))}
             </S.CalendarWeekDays>
-            {daysInMonth.length && (
+            {!!monthAvailability.length && (
               <S.CalendarMonthDays>
-                {daysInMonth[0].dayOfWeek !== 0 &&
-                  Array.from({ length: daysInMonth[0].dayOfWeek }, (_, i) => (
-                    <S.MonthDay off key={i} />
-                  ))}
-                {daysInMonth.map(dayInMonth => (
+                {monthAvailability[0].dayOfWeek !== 0 &&
+                  Array.from(
+                    { length: monthAvailability[0].dayOfWeek },
+                    (_, i) => <S.MonthDay disabled key={i} />,
+                  )}
+                {monthAvailability.map(dayInMonth => (
                   <S.MonthDay
                     key={dayInMonth.day}
                     active={currentDate.dayOfMonth === dayInMonth.day}
-                    off={!isDayAvailable(dayInMonth)}
+                    disabled={!isDayAvailable(dayInMonth)}
                     onClick={() => handleChangeDate(dayInMonth)}
                   >
                     {dayInMonth.day}
