@@ -50,6 +50,66 @@ const Dashboard: React.FC = () => {
               </span>
             </div>
           </S.NextAppointment>
+
+          <S.Section>
+            <strong>Manhã</strong>
+            <S.Appointment>
+              <span>
+                <FiClock />
+                08:00
+              </span>
+              <div>
+                <img
+                  src="https://avatars2.githubusercontent.com/u/8824363?s=460&u=1dab04b6df0098023ea8ac47c9946d606e6231d0&v=4"
+                  alt="sss"
+                />
+                <p>Ricardo Ruiz</p>
+              </div>
+            </S.Appointment>
+            <S.Appointment>
+              <span>
+                <FiClock />
+                10:00
+              </span>
+              <div>
+                <img
+                  src="https://avatars2.githubusercontent.com/u/8824363?s=460&u=1dab04b6df0098023ea8ac47c9946d606e6231d0&v=4"
+                  alt="sss"
+                />
+                <p>Ricardo Ruiz</p>
+              </div>
+            </S.Appointment>
+          </S.Section>
+
+          <S.Section>
+            <strong>Tarde</strong>
+            <S.Appointment>
+              <span>
+                <FiClock />
+                13:00
+              </span>
+              <div>
+                <img
+                  src="https://avatars2.githubusercontent.com/u/8824363?s=460&u=1dab04b6df0098023ea8ac47c9946d606e6231d0&v=4"
+                  alt="sss"
+                />
+                <p>Ricardo Ruiz</p>
+              </div>
+            </S.Appointment>
+            <S.Appointment>
+              <span>
+                <FiClock />
+                15:00
+              </span>
+              <div>
+                <img
+                  src="https://avatars2.githubusercontent.com/u/8824363?s=460&u=1dab04b6df0098023ea8ac47c9946d606e6231d0&v=4"
+                  alt="sss"
+                />
+                <strong>Ricardo Ruiz</strong>
+              </div>
+            </S.Appointment>
+          </S.Section>
         </S.Schedule>
         <S.Calendar>calendar</S.Calendar>
       </S.Content>

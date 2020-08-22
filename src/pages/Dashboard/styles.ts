@@ -68,10 +68,10 @@ export const Schedule = styled.div`
   flex: 1;
   margin-right: 7.5rem;
 
-  h1 {
+  > h1 {
     font-size: 2.5rem;
   }
-  p {
+  > p {
     margin-top: 0.5rem;
     color: #ff9000;
   }
@@ -138,4 +138,56 @@ export const NextAppointment = styled.div`
 
 export const Calendar = styled.aside`
   width: 24rem;
+`;
+
+export const Section = styled.div`
+  margin-top: 3rem;
+  flex: 1;
+
+  > strong {
+    display: block;
+    font-size: 1.25rem;
+    color: #999591;
+    line-height: 1.625rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #3e3b47;
+  }
+`;
+
+export const Appointment = styled.div`
+  display: flex;
+  align-items: center;
+
+  & + div {
+    margin-top: 1rem;
+  }
+
+  > span {
+    display: flex;
+    align-items: center;
+    margin-right: 1.625rem;
+    color: #f4ede8;
+
+    svg {
+      color: #ff9000;
+      margin-right: 0.5rem;
+    }
+  }
+
+  > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: #3e3b47;
+    padding: 1rem;
+    border-radius: 10px;
+
+    img {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50%;
+      margin-right: 1rem;
+    }
+  }
 `;
