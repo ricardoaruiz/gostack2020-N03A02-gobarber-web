@@ -5,10 +5,10 @@ import * as S from './styles';
 
 interface CurrentDate {
   date: Date;
+  day: number;
   year: number;
   month: number;
   monthName: string;
-  dayOfMonth: number;
   dayOfWeek: number;
 }
 
@@ -22,7 +22,7 @@ interface CalendarProps {
   currentDate: CurrentDate;
   monthAvailability: MonthAvailability[];
   handleChangeMonth: (type: 'prev' | 'next') => void;
-  handleChangeDate: (dayInMonth: MonthAvailability) => void;
+  handleChangeDate: (date: Date) => void;
 }
 
 const daysOfWeek = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
@@ -39,6 +39,18 @@ const Calendar: React.FC<CalendarProps> = ({
       dayInMonth.dayOfWeek < 6 &&
       dayInMonth.available,
     [],
+  );
+
+  const handleClickDay = useCallback(
+    (dayInMonth: MonthAvailability) => {
+      const { year, month } = currentDate;
+      const { day } = dayInMonth;
+
+      if (isDayAvailable(dayInMonth)) {
+        handleChangeDate(new Date(year, month, day));
+      }
+    },
+    [currentDate, handleChangeDate, isDayAvailable],
   );
 
   return (
@@ -67,9 +79,9 @@ const Calendar: React.FC<CalendarProps> = ({
             {monthAvailability.map(dayInMonth => (
               <S.MonthDay
                 key={dayInMonth.day}
-                active={currentDate.dayOfMonth === dayInMonth.day}
+                active={currentDate.day === dayInMonth.day}
                 disabled={!isDayAvailable(dayInMonth)}
-                onClick={() => handleChangeDate(dayInMonth)}
+                onClick={() => handleClickDay(dayInMonth)}
               >
                 {dayInMonth.day}
               </S.MonthDay>

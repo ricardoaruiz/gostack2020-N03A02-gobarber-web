@@ -6,7 +6,9 @@ import {
   getYear,
   getDate,
   format,
+  addDays,
   addMonths,
+  isSunday,
 } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
@@ -19,10 +21,10 @@ import Calendar from './Calendar';
 
 interface CurrentDate {
   date: Date;
-  year: number;
+  day: number;
   month: number;
+  year: number;
   monthName: string;
-  dayOfMonth: number;
   dayOfWeek: number;
 }
 
@@ -36,91 +38,92 @@ const Dashboard: React.FC = () => {
   const { signOut, user } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [currentDate, setCurrentDate] = useState<CurrentDate>(() => {
-    const current = new Date();
-    const tempMonthName = format(current, 'MMMM', { locale: ptBR });
-    const monthName =
-      tempMonthName.charAt(0).toUpperCase() + tempMonthName.slice(1);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [calendarCurrentDate, setCalendarCurrentDate] = useState<CurrentDate>(
+    () => {
+      const current = new Date();
+      const tempMonthName = format(current, 'MMMM', { locale: ptBR });
+      const monthName =
+        tempMonthName.charAt(0).toUpperCase() + tempMonthName.slice(1);
 
-    return {
-      date: current,
-      year: getYear(current),
-      month: getMonth(current),
-      monthName,
-      dayOfMonth: getDate(current),
-      dayOfWeek: getDay(current),
-    };
-  });
+      return {
+        date: current,
+        day: getDate(current),
+        month: getMonth(current),
+        year: getYear(current),
+        monthName,
+        dayOfWeek: getDay(current),
+      };
+    },
+  );
   const [monthAvailability, setMonthAvailability] = useState<
     MonthAvailability[]
   >([]);
-
-  const isDayAvailable = useCallback(
-    (dayInMonth: MonthAvailability) =>
-      dayInMonth.dayOfWeek > 0 &&
-      dayInMonth.dayOfWeek < 6 &&
-      dayInMonth.available,
-    [],
-  );
 
   const buildCurrentDate = useCallback((date: Date) => {
     const tempMonthName = format(date, 'MMMM', { locale: ptBR });
     const monthName =
       tempMonthName.charAt(0).toUpperCase() + tempMonthName.slice(1);
 
-    setCurrentDate({
+    setCalendarCurrentDate({
       date,
-      year: getYear(date),
+      day: getDate(date),
       month: getMonth(date),
+      year: getYear(date),
       monthName,
-      dayOfMonth: getDate(date),
       dayOfWeek: getDay(date),
     });
   }, []);
 
   const handleChangeDate = useCallback(
-    (dayInMonth: MonthAvailability) => {
-      const { day } = dayInMonth;
-      if (isDayAvailable(dayInMonth)) {
-        const { year, month } = currentDate;
-        buildCurrentDate(new Date(year, month, day));
-      }
+    (date: Date) => {
+      setCurrentDate(date);
+      buildCurrentDate(date);
     },
-    [buildCurrentDate, currentDate, isDayAvailable],
+    [buildCurrentDate],
   );
 
   const handleChangeMonth = useCallback(
     (type: 'prev' | 'next') => {
       const now = new Date();
-      const { date } = currentDate;
-      const newDate = addMonths(date, type === 'prev' ? -1 : 1);
+      const { date } = calendarCurrentDate;
+
+      let newDate = addMonths(
+        new Date(getYear(date), getMonth(date), 1),
+        type === 'prev' ? -1 : 1,
+      );
+
+      while (!isSunday(newDate)) {
+        newDate = addDays(newDate, 1);
+      }
       const t1 = Number(`${getYear(newDate)}${getMonth(newDate)}`);
       const t2 = Number(`${getYear(now)}${getMonth(now)}`);
-
-      if (isLoading) {
-        return;
-      }
 
       if (t1 < t2) {
         return;
       }
 
+      if (isLoading) {
+        return;
+      }
+
       setMonthAvailability([]);
-      buildCurrentDate(newDate);
+      buildCurrentDate(
+        getMonth(newDate) === getMonth(currentDate) ? currentDate : newDate,
+      );
     },
-    [buildCurrentDate, currentDate, isLoading],
+    [buildCurrentDate, calendarCurrentDate, currentDate, isLoading],
   );
 
   useEffect(() => {
-    const { month, year } = currentDate;
     const { id } = user;
 
     setIsLoading(true);
     api
       .get<MonthAvailability[]>(`/providers/${id}/month-availability`, {
         params: {
-          month: month + 1,
-          year,
+          month: calendarCurrentDate.month + 1,
+          year: calendarCurrentDate.year,
         },
       })
       .then(result => {
@@ -128,11 +131,7 @@ const Dashboard: React.FC = () => {
           const { day, available } = data;
 
           const dayOfWeek = getDay(
-            new Date(
-              getYear(currentDate.date),
-              getMonth(currentDate.date),
-              day,
-            ),
+            new Date(calendarCurrentDate.year, calendarCurrentDate.month, day),
           );
           return {
             day: data.day,
@@ -147,7 +146,7 @@ const Dashboard: React.FC = () => {
           setIsLoading(false);
         }, 500);
       });
-  }, [currentDate, user]);
+  }, [calendarCurrentDate.month, calendarCurrentDate.year, user]);
 
   return (
     <S.Container>
@@ -253,7 +252,7 @@ const Dashboard: React.FC = () => {
         </S.Schedule>
 
         <Calendar
-          currentDate={currentDate}
+          currentDate={calendarCurrentDate}
           monthAvailability={monthAvailability}
           handleChangeMonth={handleChangeMonth}
           handleChangeDate={handleChangeDate}
