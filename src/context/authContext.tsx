@@ -87,6 +87,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         token: authData.token,
         user: updateData,
       });
+      console.log('updateData', updateData);
       localStorage.setItem(LocalStorageUserKey, JSON.stringify(updateData));
     },
     [authData.token],

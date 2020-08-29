@@ -16,7 +16,9 @@ import * as S from './styles';
 interface ProfileFormData {
   name: string;
   email: string;
+  old_password: string;
   password: string;
+  password_confirmation: string;
 }
 
 const Profile: React.FC = () => {
@@ -24,6 +26,8 @@ const Profile: React.FC = () => {
   const { user, updateUser } = useAuth();
   const history = useHistory();
   const formRef = useRef<FormHandles>(null);
+
+  // Submit do form
   const handleFormSubmit: SubmitHandler<ProfileFormData> = useCallback(
     async data => {
       try {
@@ -34,34 +38,68 @@ const Profile: React.FC = () => {
           email: Yup.string()
             .email('E-mail inválido')
             .required('Campo obrigatório'),
-          old_password: Yup.string().min(
-            6,
-            'Senha deve possuir no mínimo 6 caracteres',
-          ),
+          old_password: Yup.string(),
+          password: Yup.string().when('old_password', {
+            is: value => !!value,
+            then: Yup.string().required('campo obrigatório'),
+            otherwise: Yup.string(),
+          }),
+          password_confirmation: Yup.string()
+            .when('old_password', {
+              is: value => !!value,
+              then: Yup.string().required('campo obrigatório'),
+              otherwise: Yup.string(),
+            })
+            .oneOf([Yup.ref('password')], 'não confere com a senha'),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        await api.post('/users', { ...data });
+        const {
+          name,
+          email,
+          old_password,
+          password,
+          password_confirmation,
+        } = data;
+
+        const formDataPassword = {
+          old_password,
+          password,
+          password_confirmation,
+        };
+
+        const formData = {
+          name,
+          email,
+          ...(old_password ? { ...formDataPassword } : {}),
+        };
+
+        const response = await api.put('/profile', formData);
+
+        updateUser(response.data);
 
         addToast({
           type: 'success',
-          message: 'Usuário cadastrado com sucesso',
+          message: 'Perfil do usuário alterado com sucesso.',
         });
 
-        history.push('/');
+        history.push('/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const validationErrors = getValidationErrors(err);
           formRef.current?.setErrors(validationErrors);
           return;
         }
-        addToast({ type: 'error', message: err.message });
+        addToast({
+          type: 'error',
+          message: err.response ? err.response.data.message : err.message,
+        });
       }
     },
-    [addToast, history],
+    [addToast, history, updateUser],
   );
 
   // Change avatar
@@ -117,10 +155,21 @@ const Profile: React.FC = () => {
 
           <Input name="name" placeholder="Nome" icon={FiUser} />
           <Input name="email" placeholder="E-mail" icon={FiMail} />
-          <Input name="old_password" placeholder="Senha" icon={FiLock} />
-          <Input name="password" placeholder="Nova senha" icon={FiLock} />
           <Input
-            name="confirmation"
+            name="old_password"
+            type="password"
+            placeholder="Senha"
+            icon={FiLock}
+          />
+          <Input
+            name="password"
+            type="password"
+            placeholder="Nova senha"
+            icon={FiLock}
+          />
+          <Input
+            name="password_confirmation"
+            type="password"
             placeholder="Confirmar senha"
             icon={FiLock}
           />
