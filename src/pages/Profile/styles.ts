@@ -44,7 +44,7 @@ export const Content = styled.div`
       text-align: left;
     }
 
-    > div:nth-child(3) {
+    > div:nth-child(4) {
       margin-bottom: 1.25rem;
     }
   }
@@ -53,13 +53,14 @@ export const Content = styled.div`
 export const AvatarInput = styled.div`
   margin-bottom: 2rem;
   position: relative;
+
   img {
     width: 11.625rem;
     height: 11.625rem;
     border-radius: 50%;
   }
 
-  button {
+  label {
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
@@ -70,10 +71,15 @@ export const AvatarInput = styled.div`
     top: 8rem;
     right: 4.5rem;
     transition: all 0.3s;
+    cursor: pointer;
 
     display: flex;
     justify-content: center;
     align-items: center;
+
+    input {
+      display: none;
+    }
 
     svg {
       width: 1.25rem;
