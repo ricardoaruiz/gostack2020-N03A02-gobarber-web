@@ -2,7 +2,7 @@ import { FormHandles, SubmitHandler } from '@unform/core';
 import { Form } from '@unform/web';
 import React, { useCallback, useRef } from 'react';
 import { FiLock, FiLogIn, FiMail } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import logo from '../../assets/logo.svg';
@@ -26,6 +26,7 @@ const initialData = {
 const Signin: React.FC = () => {
   const { signIn } = useAuth();
   const { addToast, removeAllToasts } = useToast();
+  const location = useHistory();
 
   const formRef = useRef<FormHandles>(null);
 
@@ -48,7 +49,7 @@ const Signin: React.FC = () => {
           password: data.password,
         });
 
-        removeAllToasts();
+        location.push('/dashboard');
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);
@@ -58,7 +59,7 @@ const Signin: React.FC = () => {
         addToast({ type: 'error', message: error.message });
       }
     },
-    [removeAllToasts, addToast, signIn],
+    [signIn, removeAllToasts, location, addToast],
   );
 
   return (
