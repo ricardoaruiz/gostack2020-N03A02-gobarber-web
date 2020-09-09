@@ -59,7 +59,7 @@ const Signin: React.FC = () => {
         addToast({ type: 'error', message: error.message });
       }
     },
-    [signIn, removeAllToasts, location, addToast],
+    [signIn, location, addToast],
   );
 
   return (
