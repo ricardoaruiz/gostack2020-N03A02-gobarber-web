@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@sheerun/mutationobserver-shim": "^0.3.3",
+    "@testing-library/react-hooks": "^3.4.1",
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.0",
     "@types/yup": "^0.29.3",
@@ -65,13 +66,15 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.0",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "react-test-renderer": "^16.13.1"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/pages/**/*.tsx",
       "src/components/**/*.tsx",
       "src/hooks/*.tsx",
+      "src/context/*.tsx",
       "!src/hooks/index.tsx"
     ]
   }
