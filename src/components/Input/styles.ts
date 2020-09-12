@@ -36,6 +36,7 @@ export const Container = styled.div<ContainerProps>`
   }
 
   &.filled {
+    color: #ff9000;
     .icon {
       color: #ff9000;
     }
